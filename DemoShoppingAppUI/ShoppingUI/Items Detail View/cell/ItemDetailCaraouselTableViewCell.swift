@@ -39,6 +39,8 @@ class ItemDetailCaraouselTableViewCell: UITableViewCell {
         button.backgroundColor = .darkGray
         button.widthAnchor.constraint(equalToConstant: 30).isActive = true
         button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        button.layer.cornerRadius = 15
+        button.layer.masksToBounds = true
         
         return button
     }()
@@ -51,6 +53,8 @@ class ItemDetailCaraouselTableViewCell: UITableViewCell {
         button.backgroundColor = .darkGray
         button.widthAnchor.constraint(equalToConstant: 30).isActive = true
         button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        button.layer.cornerRadius = 15
+        button.layer.masksToBounds = true
         
         return button
     }()

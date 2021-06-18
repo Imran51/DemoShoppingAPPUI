@@ -12,9 +12,7 @@ struct TileCollectionViewCellViewModel {
     let itemLabelText: String?
 }
 
-protocol TileCollectionViewCellDelegate {
-    func sizeLabelTapped()
-}
+
 
 class TileCollectionViewCell: UICollectionViewCell {
     static let identifier = "TileCollectionViewCell"
@@ -29,7 +27,7 @@ class TileCollectionViewCell: UICollectionViewCell {
     
     private let itemLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 21, weight: .bold)
+        label.font = .systemFont(ofSize: 20, weight: .bold)
         label.textColor = .label
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -75,12 +73,6 @@ class TileCollectionViewCell: UICollectionViewCell {
         
         itemImage.image = nil
         itemLabel.text = nil
-    }
-    
-    
-    
-    @objc private func didTapLabel(_ sender: UITapGestureRecognizer) {
-        
     }
     
     func configure(with viewModel: TileCollectionViewCellViewModel) {

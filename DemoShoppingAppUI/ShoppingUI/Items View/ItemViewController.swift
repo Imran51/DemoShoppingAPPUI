@@ -21,6 +21,7 @@ class ItemViewController: UIViewController {
         table.register(ItemInfoTableViewCell.self, forCellReuseIdentifier: ItemInfoTableViewCell.identifier)
         table.register(ItemSizeAndColorInfoTableViewCell.self, forCellReuseIdentifier: ItemSizeAndColorInfoTableViewCell.identifier)
         table.register(ItemOtherInfoTableViewCell.self, forCellReuseIdentifier: ItemOtherInfoTableViewCell.identifier)
+        table.register(ItemShippingInfoTableViewCell.self, forCellReuseIdentifier: ItemShippingInfoTableViewCell.identifier)
         table.translatesAutoresizingMaskIntoConstraints = false
         table.backgroundColor = .systemBackground
         table.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 35, right: 0)
@@ -76,7 +77,7 @@ class ItemViewController: UIViewController {
         return view
     }()
     
-    private let rowTypes: [ProductRowType] = [.item, .size, .other]
+    private let rowTypes: [ProductRowType] = [.item, .size, .shipping, .other]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,6 +111,12 @@ class ItemViewController: UIViewController {
             bottomRightBuyButton.widthAnchor.constraint(equalToConstant: view.bounds.width/2-30)
         ])
     }
+    
+    private func navigateToItemDetailsPage() {
+        let detailView = ItemsDetailViewController()
+        detailView.title = "Items Detail Size"
+        self.navigationController?.pushViewController(detailView, animated: true)
+    }
 }
 
 
@@ -132,6 +139,7 @@ extension ItemViewController: UITableViewDelegate, UITableViewDataSource {
         case .size:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ItemSizeAndColorInfoTableViewCell.identifier, for: indexPath) as? ItemSizeAndColorInfoTableViewCell else { return UITableViewCell() }
             cell.configure(withDataModel: ItemSizeAndColor(availableColorCount: 2, availableSizeCount: 4, title: nil, availableResourceImageNames: ["sandel1","sandel2","sandel3","sandel4","sandel5"], avaiLabelItemText: nil))
+            cell.delegate = self
             cell.backgroundColor = .systemBackground
             
             return cell
@@ -144,17 +152,20 @@ extension ItemViewController: UITableViewDelegate, UITableViewDataSource {
             cell.backgroundColor = .systemBackground
             
             return cell
+        case .shipping:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ItemShippingInfoTableViewCell.identifier, for: indexPath) as? ItemShippingInfoTableViewCell else { return UITableViewCell() }
             
-        default:
-            return UITableViewCell()
+            cell.configure()
+            
+            cell.backgroundColor = .systemBackground
+            
+            return cell
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 1 {
-            let detailView = ItemsDetailViewController()
-            detailView.title = "Items Detail Size"
-            self.navigationController?.pushViewController(detailView, animated: true)
+            navigateToItemDetailsPage()
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -179,8 +190,14 @@ extension ItemViewController: UITableViewDelegate, UITableViewDataSource {
             return 120
         case .other:
             return 270
-        default:
+        case .shipping:
             return 100
         }
+    }
+}
+
+extension ItemViewController: ItemSizeAndColorInfoTableViewCellDelegate {
+    func itemTapped() {
+        navigateToItemDetailsPage()
     }
 }

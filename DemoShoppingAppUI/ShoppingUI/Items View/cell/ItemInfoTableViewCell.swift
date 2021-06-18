@@ -30,7 +30,7 @@ class ItemInfoTableViewCell: UITableViewCell {
     
     private let discountedPriceLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 24, weight: .bold)
+        label.font = .systemFont(ofSize: 22, weight: .bold)
         label.textColor = .label
         label.textAlignment = .left
         label.widthAnchor.constraint(equalToConstant: 130).isActive = true
@@ -53,7 +53,7 @@ class ItemInfoTableViewCell: UITableViewCell {
     
     private let discountLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .medium)
+        label.font = .systemFont(ofSize: 18, weight: .medium)
         label.textColor = UIColor(hexString: "#008E47")
         label.layer.masksToBounds = true
         label.layer.cornerRadius = 13
@@ -98,7 +98,7 @@ class ItemInfoTableViewCell: UITableViewCell {
     
     private let itemDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.font = .systemFont(ofSize: 16, weight: .regular)
         label.textColor = .label
         label.numberOfLines = 0
         
@@ -107,7 +107,7 @@ class ItemInfoTableViewCell: UITableViewCell {
     
     private let ratingWithOtherInfoLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.font = .systemFont(ofSize: 16, weight: .regular)
         label.numberOfLines = 1
         label.textColor = .systemGreen
         label.textAlignment = .left

@@ -30,7 +30,7 @@ class VerticalTileOtherInfoCollectionViewCell: UICollectionViewCell {
         //label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .label
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: 20, weight: .medium)
+        label.font = .systemFont(ofSize: 16, weight: .medium)
         
         return label
     }()

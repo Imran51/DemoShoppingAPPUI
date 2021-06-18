@@ -7,15 +7,21 @@
 
 import UIKit
 
+protocol ItemSizeAndColorInfoTableViewCellDelegate: AnyObject {
+    func itemTapped()
+}
+
 class ItemSizeAndColorInfoTableViewCell: UITableViewCell {
     static let identifier = "ItemSizeAndColorInfoTableViewCell"
+    
+    weak var delegate: ItemSizeAndColorInfoTableViewCellDelegate?
     
     private let label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .label
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: 20, weight: .medium)
+        label.font = .systemFont(ofSize: 18, weight: .medium)
         
         return label
     }()
@@ -73,7 +79,7 @@ class ItemSizeAndColorInfoTableViewCell: UITableViewCell {
     
     func configure(withDataModel model: ItemSizeAndColor) {
         if let imageList = model.availableResourceImageNames {
-            if let colorCount = model.availableColorCount {
+            if model.availableColorCount != nil {
                 label.text = "\(model.availableColorCount ?? 0)" + " Color" + ", " + "\(model.availableSizeCount ?? 0)" + " Size"
             } else {
                 label.text = model.title
@@ -120,6 +126,10 @@ extension ItemSizeAndColorInfoTableViewCell: UICollectionViewDelegate, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if textResourceData == nil {
+            delegate?.itemTapped()
+            return
+        }
         let cell = collectionView.cellForItem(at: indexPath)
         cell?.layer.cornerRadius = 6.0
         cell?.layer.borderWidth = 1.5
@@ -127,6 +137,9 @@ extension ItemSizeAndColorInfoTableViewCell: UICollectionViewDelegate, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if textResourceData == nil {
+            return
+        }
         let cell = collectionView.cellForItem(at: indexPath)
         cell?.layer.cornerRadius = 6.0
         cell?.layer.borderWidth = 1.5

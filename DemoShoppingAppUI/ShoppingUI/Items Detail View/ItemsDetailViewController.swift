@@ -19,7 +19,7 @@ class ItemsDetailViewController: UIViewController {
         let table = UITableView()
         table.register(ItemDetailCaraouselTableViewCell.self, forCellReuseIdentifier: ItemDetailCaraouselTableViewCell.identifier)
         table.register(ItemSizeAndColorInfoTableViewCell.self, forCellReuseIdentifier: ItemSizeAndColorInfoTableViewCell.identifier)
-        // table.register(ItemOtherInfoTableViewCell.self, forCellReuseIdentifier: ItemOtherInfoTableViewCell.identifier)
+        table.register(ItemShippingInfoTableViewCell.self, forCellReuseIdentifier: ItemShippingInfoTableViewCell.identifier)
         table.translatesAutoresizingMaskIntoConstraints = false
         table.backgroundColor = .systemBackground
         table.tableFooterView = UIView()
@@ -27,7 +27,7 @@ class ItemsDetailViewController: UIViewController {
         return table
     }()
     
-    private let rowTypes: [ItemsDetaiRowType] = [.caraouselImage, .colorInfo, .sizeInfo]
+    private let rowTypes: [ItemsDetaiRowType] = [.caraouselImage, .colorInfo, .sizeInfo, .shippingInfo]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,8 +76,14 @@ extension ItemsDetailViewController: UITableViewDelegate, UITableViewDataSource 
             cell.backgroundColor = .systemBackground
             
             return cell
-        default:
-            return UITableViewCell()
+        case .shippingInfo:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ItemShippingInfoTableViewCell.identifier, for: indexPath) as? ItemShippingInfoTableViewCell else { return UITableViewCell() }
+            
+            cell.configure()
+            
+            cell.backgroundColor = .systemBackground
+            
+            return cell
         }
     }
     
