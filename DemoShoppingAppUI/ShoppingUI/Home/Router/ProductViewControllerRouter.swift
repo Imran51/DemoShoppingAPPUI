@@ -8,10 +8,10 @@
 import UIKit
 
 class ProductViewControllerRouter: ProductViewModelToRouter {
-    static func start() -> ViewController {
+    static func start() -> ProductViewController {
         let router = ProductViewControllerRouter()
         let viewModel: ProductViewControllerToViewModel = ProductViewControllerViewModel()
-        let viewController = ViewController()
+        let viewController = ProductViewController()
         viewController.title = "Products"
         
         viewController.viewModel = viewModel

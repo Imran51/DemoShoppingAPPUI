@@ -21,7 +21,7 @@
 		7135E4D02677985600EF83AD /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7135E4CF2677985600EF83AD /* ItemViewController.swift */; };
 		714D4F88267787FF0042204C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4F87267787FF0042204C /* AppDelegate.swift */; };
 		714D4F8A267787FF0042204C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4F89267787FF0042204C /* SceneDelegate.swift */; };
-		714D4F8C267787FF0042204C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4F8B267787FF0042204C /* ViewController.swift */; };
+		714D4F8C267787FF0042204C /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714D4F8B267787FF0042204C /* ProductViewController.swift */; };
 		714D4F91267788010042204C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 714D4F90267788010042204C /* Assets.xcassets */; };
 		714D4F94267788010042204C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 714D4F92267788010042204C /* LaunchScreen.storyboard */; };
 		715E415E267A39D3008D2E64 /* TileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715E415D267A39D3008D2E64 /* TileCollectionViewCell.swift */; };
@@ -61,7 +61,7 @@
 		714D4F84267787FF0042204C /* DemoShoppingAppUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoShoppingAppUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		714D4F87267787FF0042204C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		714D4F89267787FF0042204C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		714D4F8B267787FF0042204C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		714D4F8B267787FF0042204C /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		714D4F90267788010042204C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		714D4F93267788010042204C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		714D4F95267788010042204C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -309,7 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				717E7A34267E41DD000DCFCE /* Cell */,
-				714D4F8B267787FF0042204C /* ViewController.swift */,
+				714D4F8B267787FF0042204C /* ProductViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -428,7 +428,7 @@
 				717E7A3C267E5252000DCFCE /* ProductViewControllerRouter.swift in Sources */,
 				71027FF3267911C000824C7A /* ProductItemModel.swift in Sources */,
 				717825FD267C601700C6D167 /* ItemDetailCaraouselTableViewCell.swift in Sources */,
-				714D4F8C267787FF0042204C /* ViewController.swift in Sources */,
+				714D4F8C267787FF0042204C /* ProductViewController.swift in Sources */,
 				71027FF5267912D500824C7A /* ItemViewViewModel.swift in Sources */,
 				717C2435267D244500ABECED /* CardView.swift in Sources */,
 				717E7A3E267E531F000DCFCE /* ProductViewControllerViewModel.swift in Sources */,

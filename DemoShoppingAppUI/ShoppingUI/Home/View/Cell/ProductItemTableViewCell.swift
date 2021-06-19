@@ -12,17 +12,6 @@ class ProductItemCollectionViewCell: UICollectionViewCell {
     
     private static let fontSize: CGFloat = 15
     
-    private let imageParentView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(hexString: "#d8dbe2")
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 10
-        // Top right corner, Top left corner respectively
-        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        
-        return view
-    }()
-    
     private let itemImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false

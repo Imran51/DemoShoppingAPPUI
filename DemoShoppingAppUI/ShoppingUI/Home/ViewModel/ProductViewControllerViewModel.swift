@@ -20,7 +20,7 @@ class ProductViewControllerViewModel: ProductViewControllerToViewModel {
             ProductViewDescription(imageName: "item3", description: "TUINANLE Sandals Three Women 2021 New  Edition", price: "2850")
         ]
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: { [weak self] in
             self?.view?.updateView(withProductData: products)
             self?.view?.loadingIndicator(isLoading: false)
         })

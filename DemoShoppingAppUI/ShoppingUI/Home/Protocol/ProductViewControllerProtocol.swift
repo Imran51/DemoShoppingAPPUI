@@ -16,7 +16,7 @@ protocol ProductViewModelToViewController: AnyObject {
 }
 
 protocol ProductViewModelToRouter: AnyObject {
-    static func start() -> ViewController
+    static func start() -> ProductViewController
     
     func showViewController(from nav: UINavigationController)
 }

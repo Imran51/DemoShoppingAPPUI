@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ProductViewController: UIViewController {
     
     private let sectionInsets = UIEdgeInsets(top: 20.0, left: 10.0, bottom: 20.0, right: 10.0)
     private var itemsPerRow: CGFloat = 3
@@ -27,7 +27,7 @@ class ViewController: UIViewController {
     
     var viewModel: ProductViewControllerToViewModel?
     private var products = [ProductViewDescription]()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,7 +47,7 @@ class ViewController: UIViewController {
             itemsPerRow = 3
         }
     }
-
+    
     private func setViewConstraint() {
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -67,7 +67,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: ProductViewModelToViewController {
+extension ProductViewController: ProductViewModelToViewController {
     func updateView(withProductData productData: [ProductViewDescription]) {
         DispatchQueue.main.async {[weak self] in
             self?.products = productData
@@ -82,7 +82,7 @@ extension ViewController: ProductViewModelToViewController {
     }
 }
 
-extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ProductViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         products.count
     }
@@ -101,7 +101,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-       
+        
         guard let nav = self.navigationController else { return }
         viewModel?.router?.showViewController(from: nav)
     }
