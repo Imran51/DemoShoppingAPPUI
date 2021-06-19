@@ -7,7 +7,7 @@
 
 import UIKit
 
-fileprivate enum ItemsDetaiRowType {
+enum ItemsDetaiRowType {
     case caraouselImage
     case colorInfo
     case sizeInfo
@@ -27,7 +27,11 @@ class ItemsDetailViewController: UIViewController {
         return table
     }()
     
-    private let rowTypes: [ItemsDetaiRowType] = [.caraouselImage, .colorInfo, .sizeInfo, .shippingInfo]
+    private var colorInfo: ItemSizeAndColor?
+    private var sizeInfo: ItemSizeAndColor?
+    private var imageReource = [String]()
+    var viewModel: ItemsDetailViewControllerToViewModel?
+    private var rowTypes = [ItemsDetaiRowType]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +40,7 @@ class ItemsDetailViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         addTableViewConstraints()
+        viewModel?.getData()
     }
     
     private func addTableViewConstraints() {
@@ -47,6 +52,22 @@ class ItemsDetailViewController: UIViewController {
         ])
     }
     
+}
+
+extension ItemsDetailViewController: ItemsDetailViewModelToViewController {
+    func updateView(for rowTypes: [ItemsDetaiRowType], withImageResource resource: [String], withColorInfo colorInfo: ItemSizeAndColor, withSizeInfo sizeInfo: ItemSizeAndColor) {
+        DispatchQueue.main.async { [weak self] in
+            self?.rowTypes = rowTypes
+            self?.imageReource = resource
+            self?.colorInfo = colorInfo
+            self?.sizeInfo = sizeInfo
+            self?.tableView.reloadData()
+        }
+    }
+    
+    func loadingIndicator(isLoading: Bool) {
+        // loading indicator goes here
+    }
 }
 
 extension ItemsDetailViewController: UITableViewDelegate, UITableViewDataSource {
@@ -61,18 +82,21 @@ extension ItemsDetailViewController: UITableViewDelegate, UITableViewDataSource 
                 return UITableViewCell()
             }
             
-            cell.configure(imageResource: ["item1","item2","item3"])
+            cell.configure(imageResource: imageReource)
             cell.backgroundColor = .systemBackground
             
             return cell
         case .colorInfo, .sizeInfo:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ItemSizeAndColorInfoTableViewCell.identifier, for: indexPath) as? ItemSizeAndColorInfoTableViewCell else { return UITableViewCell() }
             if rowTypes[indexPath.row] == .colorInfo {
-                cell.configure(withDataModel: ItemSizeAndColor(availableColorCount: nil, availableSizeCount: nil, title: "Color", availableResourceImageNames: ["sandel1","sandel2","sandel3","sandel4","sandel5"], avaiLabelItemText: nil))
+                if let colorInfo = colorInfo {
+                    cell.configure(withDataModel: colorInfo)
+                }
             } else {
-                cell.configure(withDataModel: ItemSizeAndColor(availableColorCount: nil, availableSizeCount: nil, title: "Size", availableResourceImageNames: nil, avaiLabelItemText: ["S","M","XL","XXL"]))
+                if let sizeInfo = sizeInfo {
+                    cell.configure(withDataModel: sizeInfo)
+                }
             }
-            
             cell.backgroundColor = .systemBackground
             
             return cell
@@ -80,7 +104,6 @@ extension ItemsDetailViewController: UITableViewDelegate, UITableViewDataSource 
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ItemShippingInfoTableViewCell.identifier, for: indexPath) as? ItemShippingInfoTableViewCell else { return UITableViewCell() }
             
             cell.configure()
-            
             cell.backgroundColor = .systemBackground
             
             return cell

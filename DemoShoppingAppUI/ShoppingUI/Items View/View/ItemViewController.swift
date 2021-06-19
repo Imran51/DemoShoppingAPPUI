@@ -26,26 +26,19 @@ class ItemViewController: UIViewController {
         table.backgroundColor = .systemBackground
         table.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 35, right: 0)
         
+        
         return table
     }()
     
-    private let bottomStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.distribution = .fill
-        stack.alignment = .fill
-        stack.axis = .horizontal
-        stack.spacing = 0
-        
-        return stack
-    }()
+    private let bottomStackView = ViewUtils.customStackview(withSpacing: 0, withAxis: .horizontal)
     
-    private let leftBottomAddToCartButton: UIButton = {
-        let button = UIButton()
+    private let leftBottomAddToCartButton: BadgeButton = {
+        let button = BadgeButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 40).isActive = true
         button.setImage(UIImage(named: "addTocart"), for: .normal)
         button.backgroundColor = UIColor(hexString: "#E9FFF5")
+        button.badgeValue = "1"
         
         return button
     }()
@@ -77,7 +70,15 @@ class ItemViewController: UIViewController {
         return view
     }()
     
-    private let rowTypes: [ProductRowType] = [.item, .size, .shipping, .other]
+    deinit {
+        print("memory deallocating succesfully called...")
+    }
+    
+    private var rowTypes = [ProductRowType]()
+    var viewModel: ItemViewControllerToViewModel?
+    private var itemInfo: ItemInfo?
+    private var itemSizeAndColrInfo: ItemSizeAndColor?
+    private var othersInfos = [OtherInfoCellViewModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,7 +95,7 @@ class ItemViewController: UIViewController {
         addTableViewConstraints()
         tableView.dataSource = self
         tableView.delegate = self
-        
+        viewModel?.getData()
     }
     
     private func addTableViewConstraints() {
@@ -107,15 +108,16 @@ class ItemViewController: UIViewController {
             bottomStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bottomStackView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
             bottomStackView.heightAnchor.constraint(equalToConstant: 50),
-            bottomMiddleAddToCartButton.widthAnchor.constraint(equalToConstant: view.bounds.width/2-30),
-            bottomRightBuyButton.widthAnchor.constraint(equalToConstant: view.bounds.width/2-30)
+            bottomMiddleAddToCartButton.widthAnchor.constraint(equalToConstant: view.bounds.width/2-35),
+            bottomRightBuyButton.widthAnchor.constraint(equalToConstant: view.bounds.width/2-35)
         ])
     }
     
     private func navigateToItemDetailsPage() {
-        let detailView = ItemsDetailViewController()
-        detailView.title = "Items Detail Size"
-        self.navigationController?.pushViewController(detailView, animated: true)
+        guard let nav = self.navigationController else {
+            return
+        }
+        viewModel?.router?.showViewController(from: nav)
     }
 }
 
@@ -131,24 +133,29 @@ extension ItemViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ItemInfoTableViewCell.identifier, for: indexPath) as? ItemInfoTableViewCell else {
                 return UITableViewCell()
             }
-            let data = ItemInfo(img: "item1", actualPrice: "2850", discountedPrice: "3050", isFavourite: false, disCountedPercent: "25%", description: "TUINANLE Sandals Women 2020 New Sexy Open-toed Sandals Wedge Outdoor Cool Platform Shoes Ladies Beach Summer Sandalia Feminina", rating: "4.8", ratingByCount: 85, reviewsCount: 98, ordersCount: 80)
-            cell.configure(with: data)
+            if let data = itemInfo {
+                cell.configure(with: data)
+            }
+            cell.selectionStyle = .none
             cell.backgroundColor = .systemBackground
             
             return cell
         case .size:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ItemSizeAndColorInfoTableViewCell.identifier, for: indexPath) as? ItemSizeAndColorInfoTableViewCell else { return UITableViewCell() }
-            cell.configure(withDataModel: ItemSizeAndColor(availableColorCount: 2, availableSizeCount: 4, title: nil, availableResourceImageNames: ["sandel1","sandel2","sandel3","sandel4","sandel5"], avaiLabelItemText: nil))
+            if let sizeAndColorInfo = itemSizeAndColrInfo {
+                cell.configure(withDataModel: sizeAndColorInfo)
+            }
+            
             cell.delegate = self
+            cell.selectionStyle = .none
             cell.backgroundColor = .systemBackground
             
             return cell
         case .other:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ItemOtherInfoTableViewCell.identifier, for: indexPath) as? ItemOtherInfoTableViewCell else { return UITableViewCell() }
             
-            
-            cell.configure(withViewData: getOtherCellData())
-            
+            cell.configure(withViewData: othersInfos)
+            cell.selectionStyle = .none
             cell.backgroundColor = .systemBackground
             
             return cell
@@ -156,7 +163,7 @@ extension ItemViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ItemShippingInfoTableViewCell.identifier, for: indexPath) as? ItemShippingInfoTableViewCell else { return UITableViewCell() }
             
             cell.configure()
-            
+            cell.selectionStyle = .none
             cell.backgroundColor = .systemBackground
             
             return cell
@@ -168,18 +175,6 @@ extension ItemViewController: UITableViewDelegate, UITableViewDataSource {
             navigateToItemDetailsPage()
         }
         tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    private func getOtherCellData() -> [OtherInfoCellViewModel] {
-        let items = [
-            OtherInfoCellViewModel(leftIconName: "spec", text: "Specification", rightIconName: "chevron.right"),
-            OtherInfoCellViewModel(leftIconName: "review", text: "Reviews", rightIconName: "chevron.right"),
-            OtherInfoCellViewModel(leftIconName: "order", text: "How To Order", rightIconName: "chevron.right"),
-            OtherInfoCellViewModel(leftIconName: "faq", text: "FAQ", rightIconName: "chevron.right"),
-            OtherInfoCellViewModel(leftIconName: "sale", text: "Wholesale Enquiry", rightIconName: "chevron.right"),
-            OtherInfoCellViewModel(leftIconName: "description", text: "Description", rightIconName: "chevron.right"),
-        ]
-        return items
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -195,6 +190,26 @@ extension ItemViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
+
+
+extension ItemViewController: ItemViewModelToViewController {
+    func loadingIndicator(isLoading: Bool) {
+        DispatchQueue.main.async {
+            isLoading ? CustomLoadingIndicatorView.sharedInstance.showBlurView(withTitle: "Please Wait...") : CustomLoadingIndicatorView.sharedInstance.hide()
+        }
+    }
+    
+    func updateView(for data: ProductInfo, withRowTypes rowRypes: [ProductRowType], otherInfoCellData: [OtherInfoCellViewModel]) {
+        DispatchQueue.main.async {[weak self] in
+            self?.rowTypes = rowRypes
+            self?.itemSizeAndColrInfo = data.size
+            self?.itemInfo = data.item
+            self?.othersInfos = otherInfoCellData
+            self?.tableView.reloadData()
+        }
+    }
+}
+
 
 extension ItemViewController: ItemSizeAndColorInfoTableViewCellDelegate {
     func itemTapped() {

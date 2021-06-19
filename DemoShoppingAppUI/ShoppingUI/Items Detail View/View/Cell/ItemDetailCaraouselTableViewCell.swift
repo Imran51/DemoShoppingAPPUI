@@ -10,23 +10,12 @@ import UIKit
 class ItemDetailCaraouselTableViewCell: UITableViewCell {
     static let identifier = "ItemDetailCaraouselTableViewCell"
     
-    private let itemsTopContainerStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.distribution = .fill
-        stack.alignment = .center
-        stack.axis = .horizontal
-        stack.spacing = 5
-        
-        return stack
-    }()
+    private let itemsTopContainerStackView = ViewUtils.customStackview(withSpacing: 5,withAlignment: .center, withAxis: .horizontal)
     
     private let itemImage: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = 20
         image.layer.masksToBounds = true
-        image.backgroundColor = .red
-        //image.contentMode = .scaleAspectFill
         
         return image
     }()
@@ -130,13 +119,7 @@ class ItemDetailCaraouselTableViewCell: UITableViewCell {
         super.prepareForReuse()
         
         imageIndex =  0
-        imageView?.image = nil
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
+        itemImage.image = nil
     }
     
     func configure(imageResource: [String]) {

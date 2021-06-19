@@ -9,6 +9,11 @@ import UIKit
 
 class ItemInfoTableViewCell: UITableViewCell {
     static let identifier = "ItemInfoTableViewCell"
+    
+    private static let highestFontSize: CGFloat = 20
+    private static let mediumFontSize: CGFloat = 17
+    private static let lowestFontSize: CGFloat = 16
+    
     private let itemImage: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -17,35 +22,23 @@ class ItemInfoTableViewCell: UITableViewCell {
         return image
     }()
     
-    private let priceInfoStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.distribution = .fill
-        stack.alignment = .center
-        stack.axis = .horizontal
-        stack.spacing = 5
-        
-        return stack
-    }()
+    private let priceInfoStackView = ViewUtils.customStackview(withSpacing: 5,withAlignment: .center, withAxis: .horizontal)
     
     private let discountedPriceLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.font = .systemFont(ofSize: ItemInfoTableViewCell.highestFontSize, weight: .bold)
         label.textColor = .label
         label.textAlignment = .left
-        label.widthAnchor.constraint(equalToConstant: 130).isActive = true
+        label.widthAnchor.constraint(equalToConstant: 120).isActive = true
         
         return label
     }()
     
-    
-    
     private let originalPriceLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .systemFont(ofSize: 18, weight: .medium)
+        label.font = .systemFont(ofSize: ItemInfoTableViewCell.mediumFontSize, weight: .medium)
         label.textColor = .quaternaryLabel
-        
         label.textAlignment = .left
         
         return label
@@ -53,10 +46,10 @@ class ItemInfoTableViewCell: UITableViewCell {
     
     private let discountLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .medium)
+        label.font = .systemFont(ofSize: ItemInfoTableViewCell.mediumFontSize, weight: .medium)
         label.textColor = UIColor(hexString: "#008E47")
         label.layer.masksToBounds = true
-        label.layer.cornerRadius = 13
+        label.layer.cornerRadius = 10
         label.backgroundColor = UIColor(hexString: "#E9FFF5")
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -98,7 +91,7 @@ class ItemInfoTableViewCell: UITableViewCell {
     
     private let itemDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.font = .systemFont(ofSize: ItemInfoTableViewCell.lowestFontSize, weight: .regular)
         label.textColor = .label
         label.numberOfLines = 0
         
@@ -107,7 +100,7 @@ class ItemInfoTableViewCell: UITableViewCell {
     
     private let ratingWithOtherInfoLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.font = .systemFont(ofSize: ItemInfoTableViewCell.lowestFontSize, weight: .regular)
         label.numberOfLines = 1
         label.textColor = .systemGreen
         label.textAlignment = .left
@@ -163,14 +156,14 @@ class ItemInfoTableViewCell: UITableViewCell {
     
     func configure(with viewData: ItemInfo) {
         itemImage.image = UIImage(named: viewData.img)
-        discountedPriceLabel.text = "BDT. " + " " + df2so(Double(viewData.discountedPrice) ?? 0)
-        originalPriceLabel.text = "BDT. " + df2so(Double(viewData.actualPrice) ?? 0)
+        discountedPriceLabel.text = "BDT. " + " " + formattedBDTPrice(Double(viewData.discountedPrice) ?? 0)
+        originalPriceLabel.text = "BDT. " + formattedBDTPrice(Double(viewData.actualPrice) ?? 0)
         discountLabel.text = viewData.disCountedPercent
         itemDescriptionLabel.text = viewData.description
         ratingWithOtherInfoLabel.text = viewData.rating + " \u{2605}"
     }
     
-    func df2so(_ price: Double) -> String{
+    private func formattedBDTPrice(_ price: Double) -> String{
         let numberFormatter = NumberFormatter()
         numberFormatter.groupingSeparator = ","
         numberFormatter.groupingSize = 3

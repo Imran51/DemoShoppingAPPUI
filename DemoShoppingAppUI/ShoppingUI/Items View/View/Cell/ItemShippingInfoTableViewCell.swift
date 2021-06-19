@@ -10,16 +10,7 @@ import UIKit
 class ItemShippingInfoTableViewCell: UITableViewCell {
     static let identifier = "ItemShippingInfoTableViewCell"
     
-    private let titlehorizotalStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.distribution = .fill
-        stack.alignment = .center
-        stack.axis = .horizontal
-        stack.spacing = 5
-        
-        return stack
-    }()
+    private let titlehorizotalStackView = ViewUtils.customStackview(withSpacing: 5,withAlignment: .center, withAxis: .horizontal)
     
     private let leftTitleLabel: UILabel = {
         let label = UILabel()

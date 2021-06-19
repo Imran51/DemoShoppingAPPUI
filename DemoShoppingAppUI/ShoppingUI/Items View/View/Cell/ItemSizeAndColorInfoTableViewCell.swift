@@ -21,7 +21,7 @@ class ItemSizeAndColorInfoTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .label
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: 18, weight: .medium)
+        label.font = .systemFont(ofSize: 17, weight: .regular)
         
         return label
     }()
@@ -80,7 +80,8 @@ class ItemSizeAndColorInfoTableViewCell: UITableViewCell {
     func configure(withDataModel model: ItemSizeAndColor) {
         if let imageList = model.availableResourceImageNames {
             if model.availableColorCount != nil {
-                label.text = "\(model.availableColorCount ?? 0)" + " Color" + ", " + "\(model.availableSizeCount ?? 0)" + " Size"
+                let text = "\(model.availableColorCount ?? 0)" + " Color" + ", " + "\(model.availableSizeCount ?? 0)" + " Size"
+                label.attributedText = NSMutableAttributedString().formatFontWeight(text).formatFontWeight(" (Click below icon to show next view)", isStringBold: false, withFonSize: 13, withFontColor: .label, isItalicStyleEnabled: false)
             } else {
                 label.text = model.title
             }

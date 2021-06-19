@@ -44,16 +44,7 @@ class VerticalTileOtherInfoCollectionViewCell: UICollectionViewCell {
         return image
     }()
     
-    private let parentStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.alignment = .center
-        stack.distribution = .fill
-        stack.axis = .horizontal
-        stack.spacing = 5
-        
-        return stack
-    }()
+    private let parentStackView = ViewUtils.customStackview(withSpacing: 5,withAlignment: .center, withAxis: .horizontal)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -62,10 +53,6 @@ class VerticalTileOtherInfoCollectionViewCell: UICollectionViewCell {
         parentStackView.addArrangedSubview(leftIconImage)
         parentStackView.addArrangedSubview(label)
         parentStackView.addArrangedSubview(rightIconImage)
-        
-//        contentView.layer.cornerRadius = 6.0
-//        contentView.layer.borderWidth = 1.5
-//        contentView.layer.borderColor = UIColor.quaternaryLabel.cgColor
         setupConstraints()
     }
     

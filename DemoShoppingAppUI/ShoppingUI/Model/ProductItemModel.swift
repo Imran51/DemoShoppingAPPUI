@@ -14,6 +14,12 @@ struct ProductInfo: Codable {
     let other: ItemOtherRelatedInfo?
 }
 
+struct ProductViewDescription {
+    let imageName: String
+    let description: String
+    let price: String
+}
+
 struct ItemInfo: Codable {
     let img: String
     let actualPrice: String

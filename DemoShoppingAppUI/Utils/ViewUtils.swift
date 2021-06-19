@@ -1,0 +1,82 @@
+//
+//  ViewUtils.swift
+//  Friends
+//
+//  Created by Imran Sayeed on 22/5/21.
+//
+
+import UIKit
+
+public class ViewUtils {
+    public static func customStackview(
+        withSpacing spacing: CGFloat = 5,
+        withAlignment alignment: UIStackView.Alignment = .fill,
+        withAxis axis: NSLayoutConstraint.Axis) -> UIStackView {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.alignment = alignment
+        stackView.distribution = .fill
+        stackView.axis = axis
+        stackView.spacing = spacing
+
+        return stackView
+    }
+
+    public static func verticalSpacerView() -> UIView {
+        let spacer = UIView()
+        
+        return spacer
+    }
+
+    public static func horizontalSpacerView() -> UIView {
+        let spacer = UIView()
+        let constraint = spacer.widthAnchor.constraint(greaterThanOrEqualToConstant: CGFloat.greatestFiniteMagnitude)
+        constraint.isActive = true
+        constraint.priority = .defaultLow
+
+        return spacer
+    }
+
+    public static func customLabel(isPaddingEnabled: Bool = true, background: UIColor = .systemBackground, alignment: NSTextAlignment = .left ,height: CGFloat = 50.0) -> UILabel {
+        let label = PaddingLabel()
+        if isPaddingEnabled {
+            label.padding(0, 0, 15, 15)
+        }
+         
+        label.textAlignment = alignment
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.heightAnchor.constraint(equalToConstant: height).isActive = true
+        label.backgroundColor = background
+        label.layer.cornerRadius = 5
+        label.layer.masksToBounds = true
+        label.textColor = .label
+        
+
+        return label
+    }
+    
+    public static func verticalSeparatorView() -> UIView {
+        let view = UIView()
+        view.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        view.backgroundColor = .separator
+
+        return view
+    }
+    
+    public static func unSuccessfulAlert(_ message: String) -> UIAlertController {
+
+        return UIAlertController.alertDialog(message, title: nil)
+    }
+    
+    public static func isDarkUserInterface() -> Bool {
+        return UITraitCollection.current.userInterfaceStyle == .dark
+    }
+    
+    public static func isCurrentDeviceIphone() -> Bool {
+        return UIDevice.current.userInterfaceIdiom == .phone
+    }
+    
+    public static func isDevicePortrait() -> Bool {
+        return UIDevice.current.orientation == .portrait
+    }
+}
